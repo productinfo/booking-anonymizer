@@ -1,4 +1,4 @@
-package recognition;
+package named.entity.recognition;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package resolution;
+package co.reference.resolution;
 
 import java.util.List;
 
