@@ -76,10 +76,6 @@ class PreprocessorImp implements Preprocessor {
         return preprocessedResult;
     }
 
-    /**
-     * This method ensures that words like RREF are not deleted, since it would
-     * be transformed into "R R E F" which will later be deleted
-     */
     private String prepareTextForCamelCaseSplit(String rawText){
         StringTokenizer tokenizer = new StringTokenizer(rawText);
         String preprocessedResult = rawText;
