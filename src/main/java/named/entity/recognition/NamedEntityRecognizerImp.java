@@ -1,15 +1,15 @@
 package named.entity.recognition;
 
-import part.of.speech.tagging.POSTagger;
+import part.of.speech.tagging.POfSTagger;
 
 import java.util.List;
 
 class NamedEntityRecognizerImp implements NamedEntityRecognizer {
 
-    private final POSTagger posTagger;
+    private final POfSTagger pOfSTagger;
 
-    NamedEntityRecognizerImp(POSTagger posTagger){
-        this.posTagger = posTagger;
+    NamedEntityRecognizerImp(POfSTagger pOfSTagger) {
+        this.pOfSTagger = pOfSTagger;
     }
 
     /**

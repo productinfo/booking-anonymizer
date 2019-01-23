@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="datevflow-anonymise-java" target="1.5" />
+      <module name="datevflow-anonymise-java" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

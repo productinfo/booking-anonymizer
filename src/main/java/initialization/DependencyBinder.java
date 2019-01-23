@@ -6,18 +6,38 @@ import co.reference.resolution.CoReferenceResolver;
 import co.reference.resolution.CoReferenceResolverFactory;
 import named.entity.recognition.NamedEntityRecognizer;
 import named.entity.recognition.NamedEntityRecognizerFactory;
-import part.of.speech.tagging.POSTagger;
-import part.of.speech.tagging.POSTaggerFactory;
+import opennlp.tools.postag.POSModel;
+import opennlp.tools.postag.POSTaggerME;
+import part.of.speech.tagging.POfSTagger;
+import part.of.speech.tagging.POfSTaggerImp;
 import preprocessing.Preprocessor;
-import preprocessing.PreprocessorFactory;
+import preprocessing.PreprocessorImp;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class DependencyBinder {
 
-    public static DeIdentifier getAnonymizer(){
-        final Preprocessor preprocessor = PreprocessorFactory.getPreprocessor();
-        final POSTagger posTagger = POSTaggerFactory.getPOSTagger(preprocessor);
-        final NamedEntityRecognizer namedEntityRecognizer = NamedEntityRecognizerFactory.getNamedEntityRecognizer(posTagger);
+    public static DeIdentifier getAnonymizer() {
+        final Preprocessor preprocessor = PreprocessorImp.getPreprocessor();
+        final POSModel posModel = getPOSModel();
+        final POSTaggerME posTaggerME = getPOSTaggerME(posModel);
+        final POfSTagger POfSTagger = POfSTaggerImp.getPOfSTagger(preprocessor, posTaggerME);
+        final NamedEntityRecognizer namedEntityRecognizer = NamedEntityRecognizerFactory.getNamedEntityRecognizer(POfSTagger);
         final CoReferenceResolver coReferenceResolver = CoReferenceResolverFactory.getCoReferenceResolver(namedEntityRecognizer);
         return DeIdentifierFactory.getDeIdentifier(coReferenceResolver);
+    }
+
+    private static POSModel getPOSModel() {
+        final InputStream modelInputStream = DependencyBinder.class.getResourceAsStream("/de-pos-maxent.bin");
+        try {
+            return new POSModel(modelInputStream);
+        } catch (IOException e) {
+            throw new IllegalStateException("Unable to load Part Of Speech (POS) Model", e);
+        }
+    }
+
+    private static POSTaggerME getPOSTaggerME(POSModel model) {
+        return new POSTaggerME(model);
     }
 }

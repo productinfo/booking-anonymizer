@@ -4,13 +4,14 @@ import named.entity.recognition.NamedEntityRecognizer;
 
 import java.util.List;
 
-public class CoReferenceResolverImp implements CoReferenceResolver{
+public class CoReferenceResolverImp implements CoReferenceResolver {
 
     private final NamedEntityRecognizer namedEntityRecognizer;
 
-    CoReferenceResolverImp(NamedEntityRecognizer namedEntityRecognizer){
+    CoReferenceResolverImp(NamedEntityRecognizer namedEntityRecognizer) {
         this.namedEntityRecognizer = namedEntityRecognizer;
     }
+
     /**
      * TODO Implement Co-Reference Resolver
      */

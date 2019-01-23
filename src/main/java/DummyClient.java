@@ -16,7 +16,7 @@ public class DummyClient {
      * This method is merely to test the other layers
      */
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         //Test data
         LinkedList<String> verwendungszwecke = new LinkedList<String>();
@@ -31,7 +31,7 @@ public class DummyClient {
 
         DeIdentifier deIdentifier = DependencyBinder.getAnonymizer();
         List<String> deIdentifiedVerwendungszwecks = deIdentifier.getDeIdentifiedText(verwendungszwecke);
-        for(String deIdentifiedVerwendungszweck: deIdentifiedVerwendungszwecks) {
+        for (String deIdentifiedVerwendungszweck : deIdentifiedVerwendungszwecks) {
             System.out.println(deIdentifiedVerwendungszweck);
         }
 
