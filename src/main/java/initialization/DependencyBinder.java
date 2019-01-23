@@ -1,11 +1,9 @@
 package initialization;
 
 import anonymization.DeIdentifier;
-import anonymization.DeIdentifierFactory;
-import co.reference.resolution.CoReferenceResolver;
-import co.reference.resolution.CoReferenceResolverFactory;
+import anonymization.DeIdentifierImp;
 import named.entity.recognition.NamedEntityRecognizer;
-import named.entity.recognition.NamedEntityRecognizerFactory;
+import named.entity.recognition.NamedEntityRecognizerImp;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 import part.of.speech.tagging.POfSTagger;
@@ -23,9 +21,8 @@ public class DependencyBinder {
         final POSModel posModel = getPOSModel();
         final POSTaggerME posTaggerME = getPOSTaggerME(posModel);
         final POfSTagger POfSTagger = POfSTaggerImp.getPOfSTagger(preprocessor, posTaggerME);
-        final NamedEntityRecognizer namedEntityRecognizer = NamedEntityRecognizerFactory.getNamedEntityRecognizer(POfSTagger);
-        final CoReferenceResolver coReferenceResolver = CoReferenceResolverFactory.getCoReferenceResolver(namedEntityRecognizer);
-        return DeIdentifierFactory.getDeIdentifier(coReferenceResolver);
+        final NamedEntityRecognizer namedEntityRecognizer = NamedEntityRecognizerImp.getNamedEntityRecognizer(POfSTagger);
+        return DeIdentifierImp.getDeIdentifier(namedEntityRecognizer);
     }
 
     private static POSModel getPOSModel() {

@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface DeIdentifier {
 
-    List<String> getDeIdentifiedText(List<String> text);
+    String getDeIdentifiedText(String text);
 }
