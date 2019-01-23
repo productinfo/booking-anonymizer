@@ -29,11 +29,12 @@ public class POfSTaggerImp implements POfSTagger {
     @Override
     public String removeIrrelevantPartsOfSpeech(final String rawText) {
         Objects.requireNonNull(rawText, "Raw text cannot be null");
-        final String[] rawTextTokens = WhitespaceTokenizer.INSTANCE.tokenize(rawText);
+        final String preprocessedText = preprocessor.getPreprocessedText(rawText);
+        final String[] preprocessedTokens = WhitespaceTokenizer.INSTANCE.tokenize(preprocessedText);
         final List<String> usefulTokens = new LinkedList<>();
-        for (String rawToken : rawTextTokens) {
-            if (wordIsUsefulPartOfSpeech(rawToken)) {
-                usefulTokens.add(rawToken);
+        for (String preprocessedToken : preprocessedTokens) {
+            if (wordIsUsefulPartOfSpeech(preprocessedToken)) {
+                usefulTokens.add(preprocessedToken);
             }
         }
         return StringUtils.join(usefulTokens, " ");

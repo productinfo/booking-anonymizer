@@ -16,13 +16,18 @@ import java.io.InputStream;
 
 public class DependencyBinder {
 
+    private static DeIdentifier deIdentifier = null;
+
     public static DeIdentifier getAnonymizer() {
-        final Preprocessor preprocessor = PreprocessorImp.getPreprocessor();
-        final POSModel posModel = getPOSModel();
-        final POSTaggerME posTaggerME = getPOSTaggerME(posModel);
-        final POfSTagger POfSTagger = POfSTaggerImp.getPOfSTagger(preprocessor, posTaggerME);
-        final NamedEntityRecognizer namedEntityRecognizer = NamedEntityRecognizerImp.getNamedEntityRecognizer(POfSTagger);
-        return DeIdentifierImp.getDeIdentifier(namedEntityRecognizer);
+        if (deIdentifier == null) {
+            final Preprocessor preprocessor = PreprocessorImp.getPreprocessor();
+            final POSModel posModel = getPOSModel();
+            final POSTaggerME posTaggerME = getPOSTaggerME(posModel);
+            final POfSTagger POfSTagger = POfSTaggerImp.getPOfSTagger(preprocessor, posTaggerME);
+            final NamedEntityRecognizer namedEntityRecognizer = NamedEntityRecognizerImp.getNamedEntityRecognizer(POfSTagger);
+            deIdentifier = DeIdentifierImp.getDeIdentifier(namedEntityRecognizer);
+        }
+        return deIdentifier;
     }
 
     private static POSModel getPOSModel() {

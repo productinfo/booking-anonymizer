@@ -1,7 +1,9 @@
 package named.entity.recognition;
 
+import opennlp.tools.tokenize.WhitespaceTokenizer;
 import part.of.speech.tagging.POfSTagger;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,11 +17,11 @@ public class NamedEntityRecognizerImp implements NamedEntityRecognizer {
     }
 
     /**
-     * TODO Implement Named Entity Recognizer
+     * TODO Implement Named Entity Recognizer Logic
      */
     public List<String> getNamedEntitiesFromText(final String rawText) {
         Objects.requireNonNull(rawText, "Raw text text cannot be null");
-        return null;
+        return Arrays.asList(WhitespaceTokenizer.INSTANCE.tokenize(pOfSTagger.removeIrrelevantPartsOfSpeech(rawText)));
     }
 
     public static NamedEntityRecognizer getNamedEntityRecognizer(final POfSTagger pOfSTagger) {
