@@ -12,7 +12,8 @@ public enum IrrelevantWord {
     ORIGINATOR("debt"),
     REF(" ref "), //The Spacing here is intentional
     BANKREFERENZ("bref"),
-    UHR("uhr");
+    UHR("uhr"),
+    GLAEUBIGER_ID("Gläubigerid");
 
     private final String word;
 
