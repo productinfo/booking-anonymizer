@@ -2,5 +2,5 @@ package preprocessing;
 
 public interface Preprocessor {
 
-    String getPreprocessedText(String rawText);
+    String getPreprocessedText(final String rawText);
 }

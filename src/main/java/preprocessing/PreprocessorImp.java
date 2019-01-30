@@ -12,22 +12,13 @@ import java.util.regex.Pattern;
 
 public class PreprocessorImp implements Preprocessor {
 
-    private final static Preprocessor PREPROCESSOR = new PreprocessorImp();
-
-    private PreprocessorImp() {
-    }
-
-    public static Preprocessor getPreprocessor() {
-        return PREPROCESSOR;
-    }
-
     public String getPreprocessedText(final String rawText) {
         Objects.requireNonNull(rawText, "Raw text cannot be null");
         String preprocessedResult = removeAllPunctuationMarks(rawText);
         preprocessedResult = removeAllDigits(preprocessedResult);
         preprocessedResult = removeNonAlphabetical(preprocessedResult);
         preprocessedResult = removeSingleCharacterWords(preprocessedResult);
-        preprocessedResult = removeIrrelevantSEPAWords(preprocessedResult);
+        preprocessedResult = removeIrrelevantWords(preprocessedResult);
         preprocessedResult = prepareTextForCamelCaseSplit(preprocessedResult);
         preprocessedResult = splitCamelCase(preprocessedResult);
         preprocessedResult = StringUtils.normalizeSpace(preprocessedResult);
@@ -60,7 +51,7 @@ public class PreprocessorImp implements Preprocessor {
         return rawText.replaceAll("\\b\\w\\b", "");
     }
 
-    private String removeIrrelevantSEPAWords(final String rawText) {
+    private String removeIrrelevantWords(final String rawText) {
         String preprocessedResult = rawText;
         for (IrrelevantWord irrelevantWord : IrrelevantWord.values()) {
             preprocessedResult = preprocessedResult.replaceAll("\\b(?i)" + Pattern.quote(irrelevantWord.getWord()) + "\\b", "");

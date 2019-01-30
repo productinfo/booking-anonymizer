@@ -12,18 +12,10 @@ public class POfSTaggerImp implements POfSTagger {
 
     private final Preprocessor preprocessor;
     private final POSTaggerME posTaggerME;
-    private static POfSTagger pOfSTagger = null;
 
-    private POfSTaggerImp(final Preprocessor preprocessor, final POSTaggerME posTaggerME) {
+    public POfSTaggerImp(final Preprocessor preprocessor, final POSTaggerME posTaggerME) {
         this.preprocessor = Objects.requireNonNull(preprocessor, "Preprocessor can't be null");
         this.posTaggerME = Objects.requireNonNull(posTaggerME, "POS Tagger can't be null");
-    }
-
-    public static POfSTagger getPOfSTagger(final Preprocessor preprocessor, final POSTaggerME posTaggerME) {
-        if (pOfSTagger == null) {
-            pOfSTagger = new POfSTaggerImp(preprocessor, posTaggerME);
-        }
-        return pOfSTagger;
     }
 
     @Override

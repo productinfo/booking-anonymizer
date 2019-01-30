@@ -1,31 +1,38 @@
 package anonymization;
 
-import named.entity.recognition.NamedEntityRecognizer;
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Charsets;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
+import named.entity.NamedEntityExtractor;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class DeIdentifierImp implements DeIdentifier {
 
-    private final NamedEntityRecognizer namedEntityRecognizer;
-    private static DeIdentifier deIdentifier = null;
+    private final NamedEntityExtractor namedEntityExtractor;
+    private static final HashFunction HASH_FUNCTION = Hashing.goodFastHash(32);
 
-    private DeIdentifierImp(final NamedEntityRecognizer namedEntityRecognizer) {
-        this.namedEntityRecognizer = Objects.requireNonNull(namedEntityRecognizer, "Named Entity Recognizer can't be null");
+    public DeIdentifierImp(final NamedEntityExtractor namedEntityExtractor) {
+        this.namedEntityExtractor = Objects.requireNonNull(namedEntityExtractor, "Named Entity Recognizer can't be null");
     }
 
-    /**
-     * TODO Implement De-Identifier Logic
-     */
     public String getDeIdentifiedText(final String rawText) {
         Objects.requireNonNull(rawText, "Raw text cannot be null");
-        return StringUtils.join(namedEntityRecognizer.getNamedEntitiesFromText(rawText), " ");
+        final ImmutablePair<String, HashSet<String>> textWithEntitiesPair = namedEntityExtractor.getNamedEntitiesAndPreprocessedText(rawText);
+        String preprocessedText = textWithEntitiesPair.left;
+        HashSet<String> entities = textWithEntitiesPair.right;
+        for (String entity : entities) {
+            preprocessedText = getTextWithDeIdentifiedEntity(preprocessedText, entity);
+        }
+        return preprocessedText;
     }
 
-    public static DeIdentifier getDeIdentifier(final NamedEntityRecognizer namedEntityRecognizer) {
-        if (deIdentifier == null) {
-            deIdentifier = new DeIdentifierImp(namedEntityRecognizer);
-        }
-        return deIdentifier;
+    private String getTextWithDeIdentifiedEntity(String text, String entity) {
+        final String searchPattern = "\\b(?i)" + Pattern.quote(entity) + "\\b";
+        final String anonymizeEntity = HASH_FUNCTION.hashString(entity.toLowerCase(), Charsets.UTF_8).toString();
+        return text.replaceAll(searchPattern, anonymizeEntity);
     }
 }
