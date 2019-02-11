@@ -47,7 +47,7 @@ public class VZDeIdentifierImp implements DeIdentifier {
     }
 
     protected String getTextWithDeIdentifiedEntity(String text, String entity, NERType nerType) {
-        final String searchPattern = "\\b(?i)" + Pattern.quote(entity);
+        final String searchPattern = "(?i)" + Pattern.quote(entity);
         String replaceToken = ANONYMIZED_ENITY_PREFIX + nerType.name();
         if(!sensibleNerTypes.contains(nerType)){
             replaceToken = replaceToken + ":" + StringUtils.capitalize(entity);
@@ -57,6 +57,6 @@ public class VZDeIdentifierImp implements DeIdentifier {
     }
 
     private String getTextWithoutDigits(final String rawText) {
-        return rawText.replaceAll("\\p{N}", " ");
+        return rawText.replaceAll("\\p{N}", "#");
     }
 }

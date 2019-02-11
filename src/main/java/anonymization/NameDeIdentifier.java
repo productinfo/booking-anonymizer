@@ -1,7 +1,6 @@
 package anonymization;
 
 import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
 import named.entity.NERType;
 import named.entity.NamedEntityExtractor;
 import java.util.HashSet;
@@ -26,7 +25,7 @@ public class NameDeIdentifier extends VZDeIdentifierImp {
     }
 
     protected String getTextWithDeIdentifiedEntity(String text, String entity, NERType nerType) {
-        final String searchPattern = "\\b(?i)" + Pattern.quote(entity);
+        final String searchPattern = "(?i)" + Pattern.quote(entity);
         if(!sensibleNerTypes.contains(nerType)){
             return text;
         }

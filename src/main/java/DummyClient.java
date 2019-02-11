@@ -32,18 +32,18 @@ public class DummyClient {
             System.out.println(deIdentifier.getDeIdentifiedText(transaction));
         }
 
-
         String[] amounts = {"a", "534", "1", "0", "-98", "2", "-23"};
         DeIdentifier amountDeIdentifier = DependencyBinder.getBetragDeIdentifier();
         for (String amount : amounts) {
-            System.out.println(amountDeIdentifier.getDeIdentifiedText(amount));
+            System.out.print(amountDeIdentifier.getDeIdentifiedText(amount));
         }
+        System.out.println();
 
         LinkedList<String> namen = new LinkedList<String>();
         namen.add("GBW Wohnungs GmbH");
         namen.add("COMDIRECT VISA-MONATSABRECHNUNG");
         namen.add("PAYPAL EUROPE S.A.R.L. ET CIE S.C.A");
-        namen.add("Julia Handler-Ghamin;Übertrag");
+        namen.add("Julia Handler-Ghamin");
         namen.add("LICHTBLICK SE");
         namen.add("LOGPAY FINANCIAL SERVICES");
         namen.add("PROF. DR. GUDRUN FALKNER VERTR. D.");
