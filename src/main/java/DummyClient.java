@@ -5,16 +5,6 @@ import java.util.LinkedList;
 
 public class DummyClient {
 
-    /**
-     * TODO Implement End Point Entry Method
-     */
-
-
-    /**
-     * TODO Delete this method after end point entry implementation
-     * This method is merely to test the other layers
-     */
-
     public static void main(String[] args) {
         LinkedList<String> verwendungszwecke = new LinkedList<String>();
         verwendungszwecke.add("Lastschrift / REF Belastung Rate/004 Konto 12116122 Umweltsparv Ertrag Rate/Monatlich Einzug Zum 01 .06.2017 End-to-end-ref.: Rate/004 Konto 12116122 Core / Mandatsref.: Knd/211612/00000001 Gläubiger-id: De19zzz00000019221 Ref. J521715195638744/20452");
