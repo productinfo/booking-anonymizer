@@ -39,7 +39,7 @@ public class DummyClient {
 
         DeIdentifier deIdentifier = DependencyBinder.getVZDeIdentifier();
         for (String transaction : verwendungszwecke) {
-            //System.out.println(deIdentifier.getDeIdentifiedText(transaction));
+            System.out.println(deIdentifier.getDeIdentifiedText(transaction));
         }
 
 
@@ -47,6 +47,29 @@ public class DummyClient {
         DeIdentifier amountDeIdentifier = DependencyBinder.getBetragDeIdentifier();
         for (String amount : amounts) {
             System.out.println(amountDeIdentifier.getDeIdentifiedText(amount));
+        }
+
+        LinkedList<String> namen = new LinkedList<String>();
+        namen.add("GBW Wohnungs GmbH");
+        namen.add("COMDIRECT VISA-MONATSABRECHNUNG");
+        namen.add("PAYPAL EUROPE S.A.R.L. ET CIE S.C.A");
+        namen.add("Julia Handler-Ghamin;Übertrag");
+        namen.add("LICHTBLICK SE");
+        namen.add("LOGPAY FINANCIAL SERVICES");
+        namen.add("PROF. DR. GUDRUN FALKNER VERTR. D.");
+        namen.add("DEUTSCHE LUFTHANSA AKTIENGESELLSCHA");
+        namen.add("LOGPAY FINANCIAL SERVICES GMBH");
+        namen.add("ADORSYS GMBH + CO. KG");
+        namen.add("PASCAL PIERRE ZAMBOU ZOLEKO");
+        namen.add("Advanzia Bank S.A.");
+        namen.add("MEDICON SAGT DANKE");
+        namen.add("PayPal (Europe) S.a.r.l. et Cie., S.C.A.");
+        namen.add("VERKEHRS AG NUERNBERG");
+        namen.add("SATURN SAGT DANKE.");
+
+        DeIdentifier nameDeIdentifier = DependencyBinder.getNameDeIdentifier();
+        for (String name : namen) {
+            System.out.println(nameDeIdentifier.getDeIdentifiedText(name));
         }
     }
 }

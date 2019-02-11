@@ -13,20 +13,14 @@ import java.util.regex.Pattern;
 public class VZDeIdentifierImp implements DeIdentifier {
 
     private final NamedEntityExtractor namedEntityExtractor;
-    private final static HashSet<NERType> SENSIBLE_NER_TYPES;
-    private final static String ANONYMIZED_ENITY_PREFIX = " {@object:";
-    private final static String ANONYMIZED_ENITY_SUFFIX = "} ";
+    protected final static String ANONYMIZED_ENITY_PREFIX = " {@object:";
+    protected final static String ANONYMIZED_ENITY_SUFFIX = "} ";
+    private final HashSet<NERType> sensibleNerTypes;
 
-    static {
-        SENSIBLE_NER_TYPES = new HashSet<>();
-        SENSIBLE_NER_TYPES.add(NERType.PERSON);
-        SENSIBLE_NER_TYPES.add(NERType.MONEY);
-        SENSIBLE_NER_TYPES.add(NERType.DATE);
-        SENSIBLE_NER_TYPES.add(NERType.MISC);
-    }
 
     public VZDeIdentifierImp(final NamedEntityExtractor namedEntityExtractor) {
         this.namedEntityExtractor = Objects.requireNonNull(namedEntityExtractor, "Named Entity Recognizer can't be null");
+        sensibleNerTypes = getSensibleNERTypes();
     }
 
     public String getDeIdentifiedText(final String rawText) {
@@ -43,10 +37,19 @@ public class VZDeIdentifierImp implements DeIdentifier {
         return StringUtils.normalizeSpace(preprocessedText);
     }
 
-    private String getTextWithDeIdentifiedEntity(String text, String entity, NERType nerType) {
+    protected HashSet<NERType> getSensibleNERTypes(){
+        HashSet<NERType> sensibleNerTypes = new HashSet<>();
+        sensibleNerTypes.add(NERType.PERSON);
+        sensibleNerTypes.add(NERType.MONEY);
+        sensibleNerTypes.add(NERType.DATE);
+        sensibleNerTypes.add(NERType.MISC);
+        return sensibleNerTypes;
+    }
+
+    protected String getTextWithDeIdentifiedEntity(String text, String entity, NERType nerType) {
         final String searchPattern = "\\b(?i)" + Pattern.quote(entity);
         String replaceToken = ANONYMIZED_ENITY_PREFIX + nerType.name();
-        if(!SENSIBLE_NER_TYPES.contains(nerType)){
+        if(!sensibleNerTypes.contains(nerType)){
             replaceToken = replaceToken + ":" + StringUtils.capitalize(entity);
         }
         replaceToken = replaceToken + ANONYMIZED_ENITY_SUFFIX;

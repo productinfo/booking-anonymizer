@@ -15,10 +15,10 @@ public class PreprocessorImp implements Preprocessor {
     }
 
     private String removeAllPunctuationMarks(final String rawText) {
-        return rawText.replaceAll("\\p{P}", rawText);
+        return rawText.replaceAll("\\p{P}", " ");
     }
 
     private String removeNonAlphabetical(final String rawText) {
-        return rawText.replaceAll("\\p{Me}|\\p{S}", " ");
+        return rawText.replaceAll("\\p{Me}|\\p{S}", "");
     }
 }
