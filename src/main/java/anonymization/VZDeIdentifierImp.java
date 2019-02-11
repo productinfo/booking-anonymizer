@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class DeIdentifierImp implements DeIdentifier {
+public class VZDeIdentifierImp implements DeIdentifier {
 
     private final NamedEntityExtractor namedEntityExtractor;
     private final static HashSet<NERType> SENSIBLE_NER_TYPES;
@@ -25,12 +25,14 @@ public class DeIdentifierImp implements DeIdentifier {
         SENSIBLE_NER_TYPES.add(NERType.MISC);
     }
 
-    public DeIdentifierImp(final NamedEntityExtractor namedEntityExtractor) {
+    public VZDeIdentifierImp(final NamedEntityExtractor namedEntityExtractor) {
         this.namedEntityExtractor = Objects.requireNonNull(namedEntityExtractor, "Named Entity Recognizer can't be null");
     }
 
     public String getDeIdentifiedText(final String rawText) {
-        Objects.requireNonNull(rawText, "Raw text cannot be null");
+        if(rawText == null){
+            return "";
+        }
         final HashMap<String, NERType> namedEntities = namedEntityExtractor.getNamedEntitiesAndPreprocessedText(rawText);
         String preprocessedText = getTextWithoutDigits(rawText);
         for (Map.Entry<String, NERType> namedEntity : namedEntities.entrySet()) {

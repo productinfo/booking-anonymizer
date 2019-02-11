@@ -1,7 +1,8 @@
 package initialization;
 
+import anonymization.AmountDeIdentifier;
 import anonymization.DeIdentifier;
-import anonymization.DeIdentifierImp;
+import anonymization.VZDeIdentifierImp;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreLabel;
 import named.entity.NERType;
@@ -37,7 +38,11 @@ public class DependencyBinder {
     public static DeIdentifier getVZDeIdentifier() {
         final Preprocessor preprocessor = new PreprocessorImp();
         final NamedEntityExtractor namedEntityExtractor = new NamedEntityExtractorImp(preprocessor, NAMED_ENTITY_RECOGNIZERS);
-        return new DeIdentifierImp(namedEntityExtractor);
+        return new VZDeIdentifierImp(namedEntityExtractor);
+    }
+
+    public static DeIdentifier getBetragDeIdentifier(){
+        return new AmountDeIdentifier();
     }
 
     private static CRFClassifier<CoreLabel> getCRFClassifier(String modelName) {

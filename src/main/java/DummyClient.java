@@ -39,7 +39,14 @@ public class DummyClient {
 
         DeIdentifier deIdentifier = DependencyBinder.getVZDeIdentifier();
         for (String transaction : verwendungszwecke) {
-            System.out.println(deIdentifier.getDeIdentifiedText(transaction));
+            //System.out.println(deIdentifier.getDeIdentifiedText(transaction));
+        }
+
+
+        String[] amounts = {"a", "534", "1", "0", "-98", "2", "-23"};
+        DeIdentifier amountDeIdentifier = DependencyBinder.getBetragDeIdentifier();
+        for (String amount : amounts) {
+            System.out.println(amountDeIdentifier.getDeIdentifiedText(amount));
         }
     }
 }

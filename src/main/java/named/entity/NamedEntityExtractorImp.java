@@ -59,7 +59,16 @@ public class NamedEntityExtractorImp implements NamedEntityExtractor {
         public void run() {
             int numberOfNERs = namedEntityRecognizers.size();
             for (int i = threadNumber; i < numberOfNERs; i += threadCount) {
-                namedEntities.putAll(namedEntityRecognizers.get(i).getNamedEntities(text));
+                HashMap<String, NERType> foundEntities = namedEntityRecognizers.get(i).getNamedEntities(text);
+                addFoundEntitiesToMap(foundEntities);
+            }
+        }
+
+        private void addFoundEntitiesToMap(HashMap<String, NERType> foundEntities){
+            for (Map.Entry<String, NERType> namedEntity : foundEntities.entrySet()) {
+                String entity = namedEntity.getKey();
+                NERType entityType = namedEntity.getValue();
+                namedEntities.putIfAbsent(entity, entityType);
             }
         }
     }
