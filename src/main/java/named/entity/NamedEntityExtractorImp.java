@@ -1,31 +1,28 @@
 package named.entity;
 
 import named.entity.recognition.NamedEntityRecognizer;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import part.of.speech.tagging.POfSTagger;
+import preprocessing.Preprocessor;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class NamedEntityExtractorImp implements NamedEntityExtractor {
 
-    private final POfSTagger pOfSTagger;
+    private final Preprocessor preprocessor;
     private final List<NamedEntityRecognizer> namedEntityRecognizers;
 
-    public NamedEntityExtractorImp(final POfSTagger pOfSTagger, List<NamedEntityRecognizer> namedEntityRecognizers) {
+    public NamedEntityExtractorImp(final Preprocessor preprocessor, List<NamedEntityRecognizer> namedEntityRecognizers) {
         this.namedEntityRecognizers = Objects.requireNonNull(namedEntityRecognizers, "NamedEntityRecognizer list cannot be null");
-        this.pOfSTagger = Objects.requireNonNull(pOfSTagger, "Part Of Speech Tagger cannot be null");
+        this.preprocessor = Objects.requireNonNull(preprocessor, "PreprocessorTagger cannot be null");
     }
 
     @Override
-    public ImmutablePair<String, HashSet<String>> getNamedEntitiesAndPreprocessedText(final String text) {
-        HashSet<String> namedEntities = new LinkedHashSet<>();
-        String preprocessedText = pOfSTagger.removeIrrelevantPartsOfSpeech(text);
+    public HashMap<String, NERType> getNamedEntitiesAndPreprocessedText(final String text) {
+        Objects.requireNonNull(text, "text cannot be null");
+        final HashMap<String, NERType> namedEntities = new HashMap<>();
+        final String preprocessedText = preprocessor.getPreprocessedText(text);
         for (NamedEntityRecognizer namedEntityRecognizer : namedEntityRecognizers) {
-            namedEntities.addAll(namedEntityRecognizer.getNamedEntities(text));
+            namedEntities.putAll(namedEntityRecognizer.getNamedEntities(preprocessedText));
         }
-        return new ImmutablePair<>(preprocessedText, namedEntities);
+        return namedEntities;
     }
 }

@@ -1,6 +1,5 @@
 import anonymization.DeIdentifier;
 import initialization.DependencyBinder;
-import preprocessing.PreprocessorImp;
 
 import java.util.LinkedList;
 
@@ -22,7 +21,7 @@ public class DummyClient {
         verwendungszwecke.add("Drilon Recica Übertrag / Überweisung Lohn / Gehalt         06/17end-to-end-ref.: 7217204782-0001088lg0000 Ref. Jh217180f1035118/29868");
         verwendungszwecke.add("Nino Handler Lastschrift / Belastung Bhw 2214579 1 00 K Chc-17 End-to-end-ref.: Nicht Angegeben Core / Mandatsref.: 2214579100mv01 Gläubiger-id: De53bhw00000024235 Ref. Jm217271g2326339/22525");
         verwendungszwecke.add("Linus See Svwz+miete");
-        verwendungszwecke.add("Isabella Caspari Eref+ac717303-000780mde12017000003064488 Mref+01ca0000000000000000000000001639773 Cred+fr91deo477261 Svwz+vers.-nr. 75115140 Mawista Student");
+        verwendungszwecke.add("Isa Eref+ac717303-000780mde12017000003064488 Mref+01ca0000000000000000000000001639773 Cred+fr91deo477261 Svwz+vers.-nr. 75115140 Mawista Student");
         verwendungszwecke.add("Eref+250716283804513201256006915 Mref+5600691585121807251628cred+de58zzz00000257236 Svwz+250716283804513201256006915 Rewe Sagt Danke. 46400517");
         verwendungszwecke.add("Entgeltinformation Siehe Anlage");
         verwendungszwecke.add("Eref+pnr566792 ,knr75853 Mref+75853 Cred+de65hlz00000896922 Svwz+pnr566792 ,knr75853 Verwaltungspauschale 04.01.2017 18,00 Eur Fitone");
@@ -38,7 +37,7 @@ public class DummyClient {
         verwendungszwecke.add("Eref+(kbh407 9115155)mihv2536029739 Svwz+foer.-nr.. 519000310437754 Bafoeg Auszahlung 2018021 407/911515-5/1503 68181 -0amt Fuer Ausbildungsfoerderung E");
         verwendungszwecke.add("Eref+1002606185140 Pp.3769.pp Paypal Mref+4552224mzk52c Cred+lu96zzz0000000000000000058 Svwz+pp.3769.pp . Flixbus, Ihr Einkauf Bei Flixbus");
 
-        DeIdentifier deIdentifier = DependencyBinder.getAnonymizer();
+        DeIdentifier deIdentifier = DependencyBinder.getDeIdentifier();
         for (String transaction : verwendungszwecke) {
             System.out.println(deIdentifier.getDeIdentifiedText(transaction));
         }

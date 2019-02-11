@@ -1,10 +1,8 @@
 package named.entity;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
-import java.util.HashSet;
+import java.util.HashMap;
 
 public interface NamedEntityExtractor {
 
-    ImmutablePair<String, HashSet<String>> getNamedEntitiesAndPreprocessedText(final String text);
+    HashMap<String, NERType> getNamedEntitiesAndPreprocessedText(final String text);
 }

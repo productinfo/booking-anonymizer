@@ -3,35 +3,37 @@ package named.entity.recognition;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
+import named.entity.NERType;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class StanfordCoreRecognizer implements NamedEntityRecognizer {
+public class StanfordCoreRecognizer extends NamedEntityRecognizer {
 
     private final CRFClassifier<CoreLabel> classifier;
-    private final static String PERSON_CATEGORY = "PERSON";
 
     public StanfordCoreRecognizer(final CRFClassifier<CoreLabel> classifier) {
         this.classifier = Objects.requireNonNull(classifier, "Classifier cannot be null");
     }
 
-    public List<String> getNamedEntities(String text) {
+    public HashMap<String, NERType> getNamedEntities(final String text) {
         Objects.requireNonNull(text, "Raw text text cannot be null");
         final List<List<CoreLabel>> entitySet = classifier.classify(text);
-        List<String> entities = new LinkedList<>();
+        final HashMap<String, NERType> namedEntities = new HashMap<>();
         for (List<CoreLabel> internalList : entitySet) {
-            addPersonEntitiesToEntityCollection(internalList, entities);
+            addPersonEntitiesToEntityCollection(internalList, namedEntities);
         }
-        return entities;
+        return namedEntities;
     }
 
-    private void addPersonEntitiesToEntityCollection(List<CoreLabel> coreLabelList, List<String> entities) {
+    private void addPersonEntitiesToEntityCollection(List<CoreLabel> coreLabelList, HashMap<String, NERType> namedEntities) {
         for (CoreLabel coreLabel : coreLabelList) {
-            String category = coreLabel.get(CoreAnnotations.AnswerAnnotation.class);
-            if (PERSON_CATEGORY.equals(category)) {
-                entities.add(coreLabel.word());
+            String namedEntityType = coreLabel.get(CoreAnnotations.AnswerAnnotation.class).toUpperCase();
+            if(NER_TYPES.containsKey(namedEntityType)){
+                String namedEntity = coreLabel.word().toLowerCase();
+                namedEntities.put(namedEntity, NER_TYPES.get(namedEntityType));
             }
         }
     }
