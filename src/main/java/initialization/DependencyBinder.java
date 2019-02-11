@@ -34,7 +34,7 @@ public class DependencyBinder {
         NAMED_ENTITY_RECOGNIZERS = getNamedEntityRecognizers();
     }
 
-    public static DeIdentifier getDeIdentifier() {
+    public static DeIdentifier getVZDeIdentifier() {
         final Preprocessor preprocessor = new PreprocessorImp();
         final NamedEntityExtractor namedEntityExtractor = new NamedEntityExtractorImp(preprocessor, NAMED_ENTITY_RECOGNIZERS);
         return new DeIdentifierImp(namedEntityExtractor);

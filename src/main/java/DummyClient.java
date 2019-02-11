@@ -17,10 +17,10 @@ public class DummyClient {
 
     public static void main(String[] args) {
         LinkedList<String> verwendungszwecke = new LinkedList<String>();
-        verwendungszwecke.add("Pascal Zoleko Lastschrift / REF Belastung Rate/004 Konto 12116122 Umweltsparv Ertrag Rate/Monatlich Einzug Zum 01 .06.2017 End-to-end-ref.: Rate/004 Konto 12116122 Core / Mandatsref.: Knd/211612/00000001 Gläubiger-id: De19zzz00000019221 Ref. J521715195638744/20452");
-        verwendungszwecke.add("Drilon Recica Übertrag / Überweisung Lohn / Gehalt         06/17end-to-end-ref.: 7217204782-0001088lg0000 Ref. Jh217180f1035118/29868");
-        verwendungszwecke.add("Nino Handler Lastschrift / Belastung Bhw 2214579 1 00 K Chc-17 End-to-end-ref.: Nicht Angegeben Core / Mandatsref.: 2214579100mv01 Gläubiger-id: De53bhw00000024235 Ref. Jm217271g2326339/22525");
-        verwendungszwecke.add("Linus See Svwz+miete");
+        verwendungszwecke.add("Lastschrift / REF Belastung Rate/004 Konto 12116122 Umweltsparv Ertrag Rate/Monatlich Einzug Zum 01 .06.2017 End-to-end-ref.: Rate/004 Konto 12116122 Core / Mandatsref.: Knd/211612/00000001 Gläubiger-id: De19zzz00000019221 Ref. J521715195638744/20452");
+        verwendungszwecke.add("Übertrag / Überweisung Lohn / Gehalt         06/17end-to-end-ref.: 7217204782-0001088lg0000 Ref. Jh217180f1035118/29868");
+        verwendungszwecke.add("Lastschrift / Belastung Bhw 2214579 1 00 K Chc-17 End-to-end-ref.: Nicht Angegeben Core / Mandatsref.: 2214579100mv01 Gläubiger-id: De53bhw00000024235 Ref. Jm217271g2326339/22525");
+        verwendungszwecke.add("Svwz+miete");
         verwendungszwecke.add("Isa Eref+ac717303-000780mde12017000003064488 Mref+01ca0000000000000000000000001639773 Cred+fr91deo477261 Svwz+vers.-nr. 75115140 Mawista Student");
         verwendungszwecke.add("Eref+250716283804513201256006915 Mref+5600691585121807251628cred+de58zzz00000257236 Svwz+250716283804513201256006915 Rewe Sagt Danke. 46400517");
         verwendungszwecke.add("Entgeltinformation Siehe Anlage");
@@ -37,7 +37,7 @@ public class DummyClient {
         verwendungszwecke.add("Eref+(kbh407 9115155)mihv2536029739 Svwz+foer.-nr.. 519000310437754 Bafoeg Auszahlung 2018021 407/911515-5/1503 68181 -0amt Fuer Ausbildungsfoerderung E");
         verwendungszwecke.add("Eref+1002606185140 Pp.3769.pp Paypal Mref+4552224mzk52c Cred+lu96zzz0000000000000000058 Svwz+pp.3769.pp . Flixbus, Ihr Einkauf Bei Flixbus");
 
-        DeIdentifier deIdentifier = DependencyBinder.getDeIdentifier();
+        DeIdentifier deIdentifier = DependencyBinder.getVZDeIdentifier();
         for (String transaction : verwendungszwecke) {
             System.out.println(deIdentifier.getDeIdentifiedText(transaction));
         }
