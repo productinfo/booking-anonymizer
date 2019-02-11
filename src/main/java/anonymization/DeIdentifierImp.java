@@ -3,7 +3,6 @@ package anonymization;
 import named.entity.NERType;
 import named.entity.NamedEntityExtractor;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
