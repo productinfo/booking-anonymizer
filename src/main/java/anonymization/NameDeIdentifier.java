@@ -1,20 +1,18 @@
 package anonymization;
 
-import com.google.common.hash.HashFunction;
 import named.entity.NERType;
 import named.entity.NamedEntityExtractor;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class NameDeIdentifier extends VZDeIdentifierImp {
 
     private final HashSet<NERType> sensibleNerTypes;
-    private final HashFunction hashFunction;
 
-    public NameDeIdentifier(NamedEntityExtractor namedEntityExtractor, HashFunction hashFunction) {
+    public NameDeIdentifier(NamedEntityExtractor namedEntityExtractor) {
         super(namedEntityExtractor);
-        this.hashFunction = Objects.requireNonNull(hashFunction, "hash function cannot be null");
         sensibleNerTypes = getSensibleNERTypes();
     }
 
@@ -29,7 +27,7 @@ public class NameDeIdentifier extends VZDeIdentifierImp {
         if(!sensibleNerTypes.contains(nerType)){
             return text;
         }
-        String replaceToken = ANONYMIZED_ENITY_PREFIX + nerType.name() + ":HASH:" + hashFunction.hashString(entity) + ANONYMIZED_ENITY_SUFFIX;
+        String replaceToken = ANONYMIZED_ENITY_PREFIX + nerType.name() + ":HASH:" + DigestUtils.md2Hex(entity) + ANONYMIZED_ENITY_SUFFIX;
         return text.replaceAll(searchPattern, replaceToken);
     }
 }

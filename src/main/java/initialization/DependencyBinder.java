@@ -4,8 +4,6 @@ import anonymization.AmountDeIdentifier;
 import anonymization.DeIdentifier;
 import anonymization.NameDeIdentifier;
 import anonymization.VZDeIdentifierImp;
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreLabel;
 import named.entity.NERType;
@@ -21,7 +19,6 @@ import opennlp.tools.namefind.TokenNameFinderModel;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
-import preprocessing.Preprocessor;
 import preprocessing.PreprocessorImp;
 
 import java.io.IOException;
@@ -46,11 +43,10 @@ public class DependencyBinder {
 
     public static DeIdentifier getNameDeIdentifier() {
         final NamedEntityExtractor namedEntityExtractor = new NamedEntityExtractorImp(new PreprocessorImp(), NAMED_ENTITY_RECOGNIZERS);
-        final HashFunction hashFunction = Hashing.goodFastHash(32);
-        return new NameDeIdentifier(namedEntityExtractor, hashFunction);
+        return new NameDeIdentifier(namedEntityExtractor);
     }
 
-    public static DeIdentifier getBetragDeIdentifier(){
+    public static DeIdentifier getAmountDeIdentifier(){
         return new AmountDeIdentifier();
     }
 

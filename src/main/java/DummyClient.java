@@ -33,7 +33,7 @@ public class DummyClient {
         }
 
         String[] amounts = {"a", "534", "1", "0", "-98", "2", "-23"};
-        DeIdentifier amountDeIdentifier = DependencyBinder.getBetragDeIdentifier();
+        DeIdentifier amountDeIdentifier = DependencyBinder.getAmountDeIdentifier();
         for (String amount : amounts) {
             System.out.print(amountDeIdentifier.getDeIdentifiedText(amount));
         }
