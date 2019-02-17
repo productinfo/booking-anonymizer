@@ -43,6 +43,9 @@ public class VZDeIdentifierImp implements DeIdentifier {
         sensibleNerTypes.add(NERType.MONEY);
         sensibleNerTypes.add(NERType.DATE);
         sensibleNerTypes.add(NERType.MISC);
+        sensibleNerTypes.add(NERType.URL);
+        sensibleNerTypes.add(NERType.LOCATION);
+        sensibleNerTypes.add(NERType.EMAIL);
         return sensibleNerTypes;
     }
 
