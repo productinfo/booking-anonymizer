@@ -9,10 +9,8 @@ import edu.stanford.nlp.ling.CoreLabel;
 import named.entity.NERType;
 import named.entity.NamedEntityExtractor;
 import named.entity.NamedEntityExtractorImp;
-import named.entity.recognition.NamedEntityRecognizer;
-import named.entity.recognition.OpenNLPRecognizer;
-import named.entity.recognition.RegexRecognizer;
-import named.entity.recognition.StanfordCoreRecognizer;
+import named.entity.proprietoryModels.LingPipeExactDictionaryChunker;
+import named.entity.recognition.*;
 import named.entity.tokenization.TokenizerDecorator;
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.namefind.TokenNameFinderModel;
@@ -84,36 +82,40 @@ public class DependencyBinder {
 
     private static List<NamedEntityRecognizer> getNamedEntityRecognizers() {
         List<NamedEntityRecognizer> namedEntityRecognizers = new ArrayList<>(INITIAL_CAPACITY);
-        namedEntityRecognizers.add(getOpenNLPEnglishMoneyNER());
-        namedEntityRecognizers.add(getOpenNLPDutchLocationNER());
-        namedEntityRecognizers.add(getOpenNLPEnglishLocationNER());
-        namedEntityRecognizers.add(getOpenNLPSpanishLocationNER());
-        namedEntityRecognizers.add(getGermanStanfordNER());
-        namedEntityRecognizers.add(getEnglishStanfordNER());
-        namedEntityRecognizers.add(getSpanishStanfordNER());
-        namedEntityRecognizers.add(getOpenNLPDutchPersonNER());
-        namedEntityRecognizers.add(getOpenNLPEnglishPersonNER());
-        namedEntityRecognizers.add(getOpenNLPSpanishPersonNER());
-        namedEntityRecognizers.add(getOpenNLPEnglishOrganizationNER());
-        namedEntityRecognizers.add(getOpenNLPDutchOrganizationNER());
-        namedEntityRecognizers.add(getOpenNLPSpanishOrganizationNER());
-        namedEntityRecognizers.add(getOpenNLPEnglishDateNER());
-        namedEntityRecognizers.add(getURLNER());
-        namedEntityRecognizers.add(getEmailNER());
+        namedEntityRecognizers.add(0, getGermanFirmProprietoryModel());
+        namedEntityRecognizers.add(1, getOpenNLPEnglishOrganizationNER());
+        namedEntityRecognizers.add(2, getOpenNLPDutchOrganizationNER());
+        namedEntityRecognizers.add(3, getOpenNLPSpanishOrganizationNER());
+        namedEntityRecognizers.add(4, getGermanCityProprietoryModel());
+        namedEntityRecognizers.add(5, getOpenNLPEnglishMoneyNER());
+        namedEntityRecognizers.add(6, getOpenNLPDutchLocationNER());
+        namedEntityRecognizers.add(7, getOpenNLPEnglishLocationNER());
+        namedEntityRecognizers.add(8, getOpenNLPSpanishLocationNER());
+        namedEntityRecognizers.add(9, getGermanStanfordNER());
+        namedEntityRecognizers.add(10, getEnglishStanfordNER());
+        namedEntityRecognizers.add(11, getSpanishStanfordNER());
+        namedEntityRecognizers.add(12, getOpenNLPDutchPersonNER());
+        namedEntityRecognizers.add(13, getOpenNLPEnglishPersonNER());
+        namedEntityRecognizers.add(14, getOpenNLPSpanishPersonNER());
+        namedEntityRecognizers.add(15, getOpenNLPEnglishDateNER());
+        namedEntityRecognizers.add(16, getURLNER());
+        namedEntityRecognizers.add(17, getEmailNER());
         return namedEntityRecognizers;
     }
 
-    private static List<NamedEntityRecognizer> getAmountNamedEntityRecognizers() {
+    private static List<NamedEntityRecognizer> getNametNamedEntityRecognizers() {
         //The use of an array list here in intention. Subsequent threads need to operate with array indexes
         List<NamedEntityRecognizer> namedEntityRecognizers = new ArrayList<>(INITIAL_CAPACITY);
         // Order Matters to the Implementation.
         // Do not change unless you know what you are doing.
-        namedEntityRecognizers.add(getGermanStanfordNER());
-        namedEntityRecognizers.add(getEnglishStanfordNER());
-        namedEntityRecognizers.add(getSpanishStanfordNER());
-        namedEntityRecognizers.add(getOpenNLPDutchPersonNER());
-        namedEntityRecognizers.add(getOpenNLPEnglishPersonNER());
-        namedEntityRecognizers.add(getOpenNLPSpanishPersonNER());
+        namedEntityRecognizers.add(0, getGermanFirmProprietoryModel());
+        namedEntityRecognizers.add(1, getOpenNLPEnglishOrganizationNER());
+        namedEntityRecognizers.add(2, getGermanStanfordNER());
+        namedEntityRecognizers.add(3, getEnglishStanfordNER());
+        namedEntityRecognizers.add(4, getSpanishStanfordNER());
+        namedEntityRecognizers.add(5, getOpenNLPDutchPersonNER());
+        namedEntityRecognizers.add(6, getOpenNLPEnglishPersonNER());
+        namedEntityRecognizers.add(7, getOpenNLPSpanishPersonNER());
         return namedEntityRecognizers;
     }
 
@@ -184,5 +186,13 @@ public class DependencyBinder {
 
     private static NamedEntityRecognizer getOpenNLPSpanishPersonNER() {
         return new OpenNLPRecognizer(getNameFinder("/es-ner-person.bin"), getTokenizerDecorator(), NERType.PERSON);
+    }
+
+    private static NamedEntityRecognizer getGermanCityProprietoryModel(){
+        return new LingPipeDictionaryRecognizer(LingPipeExactDictionaryChunker.initializeDictionary("/staedte.csv", "LOCATION"), NERType.LOCATION);
+    }
+
+    private static NamedEntityRecognizer getGermanFirmProprietoryModel(){
+        return new LingPipeDictionaryRecognizer(LingPipeExactDictionaryChunker.initializeDictionary("/firmennamen.csv", "ORGANIZATION"), NERType.ORGANIZATION);
     }
 }
