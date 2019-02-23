@@ -29,11 +29,10 @@ public class VZDeIdentifierImp implements DeIdentifier {
         }
         final HashMap<String, NERType> namedEntities = namedEntityExtractor.getNamedEntitiesAndPreprocessedText(rawText);
         String preprocessedText = getTextWithoutDigits(rawText);
-        final HashSet<String> entitiesProcessed = new HashSet<>();
         for (Map.Entry<String, NERType> namedEntity : namedEntities.entrySet()) {
             String entity = namedEntity.getKey();
             NERType entityType = namedEntity.getValue();
-            preprocessedText = getTextWithDeIdentifiedEntity(preprocessedText, entity, entityType, entitiesProcessed);
+            preprocessedText = getTextWithDeIdentifiedEntity(preprocessedText, entity, entityType);
         }
         return StringUtils.normalizeSpace(preprocessedText);
     }
@@ -50,23 +49,13 @@ public class VZDeIdentifierImp implements DeIdentifier {
         return sensibleNerTypes;
     }
 
-    protected String getTextWithDeIdentifiedEntity(String text, String entity, NERType nerType, HashSet<String> entitiesProcessed) {
-
-        if (entityAlreadyProcessed(entitiesProcessed, entity)) {
-            return text;
-        }
-
-        final String searchPattern = "(?i)" + Pattern.quote(entity);
-        String replaceToken = ANONYMIZED_ENITY_PREFIX + nerType.name();
+    protected String getTextWithDeIdentifiedEntity(String text, String entity, NERType nerType) {
 
         if (!sensibleNerTypes.contains(nerType)) {
-            replaceToken = replaceToken + ":" + StringUtils.capitalize(entity);
+            return text;
         }
-
-        replaceToken = replaceToken + ANONYMIZED_ENITY_SUFFIX;
-        String processedText = text.replaceAll(searchPattern, replaceToken);
-        entitiesProcessed.add(entity);
-        return processedText;
+        final String searchPattern = "(?i)" + Pattern.quote(entity);
+        return text.replaceAll(searchPattern, "#");
     }
 
     protected boolean entityAlreadyProcessed(HashSet<String> entitiesProcessed, String entity) {

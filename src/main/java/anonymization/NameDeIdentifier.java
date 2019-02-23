@@ -22,19 +22,14 @@ public class NameDeIdentifier extends VZDeIdentifierImp {
         return sensibleNerTypes;
     }
 
-    protected String getTextWithDeIdentifiedEntity(String text, String entity, NERType nerType, HashSet<String> entitiesProcessed) {
-        if (entityAlreadyProcessed(entitiesProcessed, entity)) {
-            return text;
-        }
+    protected String getTextWithDeIdentifiedEntity(String text, String entity, NERType nerType) {
 
         final String searchPattern = "(?i)" + Pattern.quote(entity);
 
         if (!sensibleNerTypes.contains(nerType)) {
             return text;
         }
-        String replaceToken = ANONYMIZED_ENITY_PREFIX + nerType.name() + ":HASH:" + DigestUtils.md2Hex(entity) + ANONYMIZED_ENITY_SUFFIX;
-        String processedText = text.replaceAll(searchPattern, replaceToken);
-        entitiesProcessed.add(entity);
-        return processedText;
+
+        return text.replaceAll(searchPattern, "#");
     }
 }
