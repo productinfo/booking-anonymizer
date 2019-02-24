@@ -13,8 +13,6 @@ import java.util.regex.Pattern;
 public class VZDeIdentifierImp implements DeIdentifier {
 
     private final NamedEntityExtractor namedEntityExtractor;
-    protected final static String ANONYMIZED_ENITY_PREFIX = " {@object:";
-    protected final static String ANONYMIZED_ENITY_SUFFIX = "} ";
     private final HashSet<NERType> sensibleNerTypes;
 
 
@@ -56,15 +54,6 @@ public class VZDeIdentifierImp implements DeIdentifier {
         }
         final String searchPattern = "(?i)" + Pattern.quote(entity);
         return text.replaceAll(searchPattern, "#");
-    }
-
-    protected boolean entityAlreadyProcessed(HashSet<String> entitiesProcessed, String entity) {
-        for (String processedEntity : entitiesProcessed) {
-            if (processedEntity.equalsIgnoreCase(entity) || processedEntity.contains(entity)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private String getTextWithoutDigits(final String rawText) {
