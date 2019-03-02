@@ -28,9 +28,9 @@ object DummyClient {
         val transactions = mutableListOf<String>()
         transactions.add("Pascal")
         transactions.add("Paypal")
-        val deIdentifier1 = DependencyBinder.nameDeIdentifier
+        val nameDeIdentifier = DependencyBinder.nameDeIdentifier
         for (transaction in transactions) {
-            println(deIdentifier1.getDeIdentifiedText(transaction))
+            println(nameDeIdentifier.getDeIdentifiedText(transaction))
         }
 
     }

@@ -2,7 +2,6 @@ package anonymization
 
 import named.entity.NERType
 import named.entity.NamedEntityExtractor
-import org.apache.commons.lang3.StringUtils
 import java.util.*
 import java.util.regex.Pattern
 
@@ -14,7 +13,8 @@ open class VZDeIdentifierImp(private val namedEntityExtractor: NamedEntityExtrac
         NERType.MISC,
         NERType.URL,
         NERType.LOCATION,
-        NERType.EMAIL)
+        NERType.EMAIL
+    )
 
     open val sensibleNERTypes: HashSet<NERType>
         get() {
@@ -39,7 +39,8 @@ open class VZDeIdentifierImp(private val namedEntityExtractor: NamedEntityExtrac
         for ((entity, entityType) in namedEntities) {
             preprocessedText = getTextWithDeIdentifiedEntity(preprocessedText, entity, entityType)
         }
-        return StringUtils.normalizeSpace(preprocessedText)
+
+        return preprocessedText.replace("\\s+".toRegex(), " ").trim()
     }
 
     protected open fun getTextWithDeIdentifiedEntity(text: String, entity: String, nerType: NERType): String {
