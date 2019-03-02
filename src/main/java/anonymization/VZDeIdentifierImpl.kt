@@ -1,5 +1,5 @@
 package anonymization
 
-data class NameDeIdentifier(
+data class VZDeIdentifierImpl(
     private val delegate: EntityDeIdentifierDelegate
 ) : DeIdentifier by delegate

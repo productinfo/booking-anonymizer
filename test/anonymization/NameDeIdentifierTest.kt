@@ -1,7 +1,7 @@
 package anonymization
 
 import initialization.DependencyBinder
-import named.entity.NamedEntityExtractorImp
+import named.entity.NamedEntityExtractorImpl
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -57,7 +57,7 @@ class NameDeIdentifierTest {
 
     @Test
     fun `text should not contain names or entities`() {
-        val namedEntityExtractor = NamedEntityExtractorImp(PreprocessorImp(), DependencyBinder.namedEntityRecognizers)
+        val namedEntityExtractor = NamedEntityExtractorImpl(PreprocessorImp(), DependencyBinder.namedEntityRecognizers)
         val testData = listOf(
             "Impressionen Versand GmbH SOLADEST600 DE87600501010008683773 9991093962265 End-to-End-Ref.: CCB.304.UE.253988",
             "Florian Stefan Hirsch Rechtsschutz End-to-End-Ref.: NOTPROVIDED Kundenreferenz: NSCT1812180001050000000000000000007",
@@ -86,7 +86,7 @@ class NameDeIdentifierTest {
                 val anonymisedText = nameDeIdentifier.getDeIdentifiedText(it)
                 namedEntities.forEach {
                     assertFalse {
-                        (nameDeIdentifier as? VZDeIdentifierImp)?.sensibleNerTypes?.contains(it.value) == true
+                        (nameDeIdentifier as? VZDeIdentifierImpl)?.sensibleNerTypes?.contains(it.value) == true
                             && anonymisedText.contains(it.key)
                     }
                 }

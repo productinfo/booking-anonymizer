@@ -1,13 +1,10 @@
 package initialization
 
-import anonymization.AmountDeIdentifier
-import anonymization.DeIdentifier
-import anonymization.NameDeIdentifier
-import anonymization.VZDeIdentifierImp
+import anonymization.*
 import edu.stanford.nlp.ie.crf.CRFClassifier
 import edu.stanford.nlp.ling.CoreLabel
 import named.entity.NERType
-import named.entity.NamedEntityExtractorImp
+import named.entity.NamedEntityExtractorImpl
 import named.entity.proprietoryModels.LingPipeExactDictionaryChunker
 import named.entity.recognition.*
 import named.entity.tokenization.TokenizerDecorator
@@ -32,18 +29,42 @@ object DependencyBinder {
 
     val vzDeIdentifier: DeIdentifier
         get() {
-            val namedEntityExtractor = NamedEntityExtractorImp(PreprocessorImp(), NAMED_ENTITY_RECOGNIZERS)
-            return VZDeIdentifierImp(namedEntityExtractor)
+            val namedEntityExtractor = NamedEntityExtractorImpl(PreprocessorImp(), NAMED_ENTITY_RECOGNIZERS)
+            return VZDeIdentifierImpl(
+                EntityDeIdentifierDelegate(
+                    namedEntityExtractor, hashSetOf(
+                        NERType.PERSON,
+                        NERType.MONEY,
+                        NERType.DATE,
+                        NERType.MISC,
+                        NERType.URL,
+                        NERType.LOCATION,
+                        NERType.EMAIL
+                    )
+                )
+            )
         }
 
     val nameDeIdentifier: DeIdentifier
         get() {
-            val namedEntityExtractor = NamedEntityExtractorImp(PreprocessorImp(), NAMED_ENTITY_RECOGNIZERS)
-            return NameDeIdentifier(namedEntityExtractor)
+            val namedEntityExtractor = NamedEntityExtractorImpl(PreprocessorImp(), NAMED_ENTITY_RECOGNIZERS)
+            return NameDeIdentifier(
+                EntityDeIdentifierDelegate(
+                    namedEntityExtractor, hashSetOf(
+                        NERType.PERSON
+                    )
+                )
+            )
         }
 
     val amountDeIdentifier: DeIdentifier
-        get() = AmountDeIdentifier()
+        get() {
+            val namedEntityExtractor = NamedEntityExtractorImpl(PreprocessorImp(), NAMED_ENTITY_RECOGNIZERS)
+            return AmountDeIdentifierImpl(
+                EntityDeIdentifierDelegate(namedEntityExtractor)
+            )
+        }
+
 
     val namedEntityRecognizers: List<NamedEntityRecognizer>
         get() {
@@ -72,23 +93,6 @@ object DependencyBinder {
 
     private val tokenizerDecorator: Tokenizer
         get() = TokenizerDecorator(getTokenizerModel("/en-token.bin"))
-
-    //The use of an array list here in intention. Subsequent threads need to operate with array indexes
-    // Order Matters to the Implementation.
-    // Do not change unless you know what you are doing.
-    private val nametNamedEntityRecognizers: List<NamedEntityRecognizer>
-        get() {
-            val namedEntityRecognizers = ArrayList<NamedEntityRecognizer>(INITIAL_CAPACITY)
-            namedEntityRecognizers.add(0, germanFirmProprietoryModel)
-            namedEntityRecognizers.add(1, openNLPEnglishOrganizationNER)
-            namedEntityRecognizers.add(2, germanStanfordNER)
-            namedEntityRecognizers.add(3, englishStanfordNER)
-            namedEntityRecognizers.add(4, spanishStanfordNER)
-            namedEntityRecognizers.add(5, openNLPDutchPersonNER)
-            namedEntityRecognizers.add(6, openNLPEnglishPersonNER)
-            namedEntityRecognizers.add(7, openNLPSpanishPersonNER)
-            return namedEntityRecognizers
-        }
 
     private val englishStanfordNER: NamedEntityRecognizer
         get() {
@@ -198,7 +202,6 @@ object DependencyBinder {
         } catch (e: IOException) {
             throw IllegalStateException("Unable to load Name Finder Moder Model", e)
         }
-
     }
 
     private fun getTokenizerModel(tokenizerModelName: String): TokenizerModel {
@@ -208,7 +211,6 @@ object DependencyBinder {
         } catch (e: IOException) {
             throw IllegalStateException("Unable to load Tokenizer Model", e)
         }
-
     }
 
     private fun getTokenizer(tokenizerModelName: String): Tokenizer {

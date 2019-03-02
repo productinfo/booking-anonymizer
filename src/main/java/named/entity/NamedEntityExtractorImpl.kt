@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class NamedEntityExtractorImp(
+class NamedEntityExtractorImpl(
     private val preprocessor: Preprocessor,
     private val namedEntityRecognizers: List<NamedEntityRecognizer>
 ) : NamedEntityExtractor {

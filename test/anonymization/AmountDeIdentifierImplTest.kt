@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(BlockJUnit4ClassRunner::class)
-class AmountDeIdentifierTest {
+class AmountDeIdentifierImplTest {
     private lateinit var amountDeIdentifier: DeIdentifier
 
     @Before
@@ -59,8 +59,8 @@ class AmountDeIdentifierTest {
         testData.forEach {
             val bucketisedAmount = amountDeIdentifier.getDeIdentifiedText(it)
             assertTrue {
-                bucketisedAmount.toDouble() <= AmountDeIdentifier.MAXIMUM_BIN_COUNT
-                        && bucketisedAmount.toDouble() >= AmountDeIdentifier.MAXIMUM_BIN_COUNT * -1
+                bucketisedAmount.toDouble() <= AmountDeIdentifierImpl.MAXIMUM_BIN_COUNT
+                        && bucketisedAmount.toDouble() >= AmountDeIdentifierImpl.MAXIMUM_BIN_COUNT * -1
             }
         }
     }
@@ -80,8 +80,8 @@ class AmountDeIdentifierTest {
         testData.forEach {
             val bucketisedAmount = amountDeIdentifier.getDeIdentifiedText(it)
             assertTrue {
-                bucketisedAmount.toDouble() <= AmountDeIdentifier.MAXIMUM_BIN_COUNT
-                        && bucketisedAmount.toDouble() >= AmountDeIdentifier.MAXIMUM_BIN_COUNT * -1
+                bucketisedAmount.toDouble() <= AmountDeIdentifierImpl.MAXIMUM_BIN_COUNT
+                        && bucketisedAmount.toDouble() >= AmountDeIdentifierImpl.MAXIMUM_BIN_COUNT * -1
             }
         }
     }
@@ -98,8 +98,8 @@ class AmountDeIdentifierTest {
         testData.forEach {
             val bucketisedAmount = amountDeIdentifier.getDeIdentifiedText(it)
             assertTrue {
-                bucketisedAmount.toDouble() <= AmountDeIdentifier.MAXIMUM_BIN_COUNT
-                        && bucketisedAmount.toDouble() >= AmountDeIdentifier.MAXIMUM_BIN_COUNT * -1
+                bucketisedAmount.toDouble() <= AmountDeIdentifierImpl.MAXIMUM_BIN_COUNT
+                        && bucketisedAmount.toDouble() >= AmountDeIdentifierImpl.MAXIMUM_BIN_COUNT * -1
             }
         }
     }
@@ -136,7 +136,7 @@ class AmountDeIdentifierTest {
             buckets.add(amountDeIdentifier.getDeIdentifiedText(it))
         }
 
-        val lastBucketisedAmount = AmountDeIdentifier().getDeIdentifiedText(testData.last())
+        val lastBucketisedAmount = DependencyBinder.amountDeIdentifier.getDeIdentifiedText(testData.last())
         assertTrue { lastBucketisedAmount == buckets.last() }
     }
 }

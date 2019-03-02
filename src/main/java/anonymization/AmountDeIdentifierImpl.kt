@@ -1,6 +1,7 @@
 package anonymization
 
-class AmountDeIdentifier : DeIdentifier {
+class AmountDeIdentifierImpl(private val delegate: EntityDeIdentifierDelegate) : DeIdentifier by delegate {
+
     override fun getDeIdentifiedText(text: String?): String {
         if (text.isNullOrBlank()) {
             return "NaN"

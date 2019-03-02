@@ -4,18 +4,10 @@ import named.entity.NERType
 import named.entity.NamedEntityExtractor
 import java.util.regex.Pattern
 
-open class VZDeIdentifierImp(private val namedEntityExtractor: NamedEntityExtractor?) :
-    DeIdentifier {
-
-    open val sensibleNerTypes = hashSetOf(
-        NERType.PERSON,
-        NERType.MONEY,
-        NERType.DATE,
-        NERType.MISC,
-        NERType.URL,
-        NERType.LOCATION,
-        NERType.EMAIL
-    )
+data class EntityDeIdentifierDelegate(
+    private val namedEntityExtractor: NamedEntityExtractor?,
+    override val sensibleNerTypes: HashSet<NERType> = hashSetOf()
+) : DeIdentifier {
 
     override fun getDeIdentifiedText(text: String?): String {
         if (text.isNullOrBlank()) {
@@ -31,7 +23,7 @@ open class VZDeIdentifierImp(private val namedEntityExtractor: NamedEntityExtrac
         return preprocessedText.replace("\\s+".toRegex(), " ").trim()
     }
 
-    protected open fun getTextWithDeIdentifiedEntity(text: String, entity: String, nerType: NERType): String {
+    private fun getTextWithDeIdentifiedEntity(text: String, entity: String, nerType: NERType): String {
         val searchPattern = "(?i)" + Pattern.quote(entity)
         return if (!sensibleNerTypes.contains(nerType)) {
             text
