@@ -8,9 +8,9 @@ import java.util.regex.Pattern
 data class NameDeIdentifier(private val namedEntityExtractor: NamedEntityExtractor?) :
     VZDeIdentifierImp(namedEntityExtractor) {
 
-    private val sensibleNerTypes: HashSet<NERType> = sensibleNERTypes
-    override val sensibleNERTypes: HashSet<NERType>
-        get() = hashSetOf(NERType.PERSON)
+    override val sensibleNerTypes = hashSetOf(
+        NERType.PERSON
+    )
 
     override fun getTextWithDeIdentifiedEntity(text: String, entity: String, nerType: NERType): String {
         val searchPattern = "(?i)" + Pattern.quote(entity)

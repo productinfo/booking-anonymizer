@@ -2,11 +2,12 @@ package anonymization
 
 import named.entity.NERType
 import named.entity.NamedEntityExtractor
-import java.util.*
 import java.util.regex.Pattern
 
-open class VZDeIdentifierImp(private val namedEntityExtractor: NamedEntityExtractor?) : DeIdentifier {
-    private val sensibleNerTypes: HashSet<NERType> = hashSetOf(
+open class VZDeIdentifierImp(private val namedEntityExtractor: NamedEntityExtractor?) :
+    DeIdentifier {
+
+    open val sensibleNerTypes = hashSetOf(
         NERType.PERSON,
         NERType.MONEY,
         NERType.DATE,
@@ -16,24 +17,11 @@ open class VZDeIdentifierImp(private val namedEntityExtractor: NamedEntityExtrac
         NERType.EMAIL
     )
 
-    open val sensibleNERTypes: HashSet<NERType>
-        get() {
-            return hashSetOf(
-                NERType.PERSON,
-                NERType.MONEY,
-                NERType.DATE,
-                NERType.MISC,
-                NERType.URL,
-                NERType.LOCATION,
-                NERType.EMAIL
-            )
-        }
-
-
     override fun getDeIdentifiedText(text: String?): String {
         if (text.isNullOrBlank()) {
             return ""
         }
+
         val namedEntities = namedEntityExtractor?.getNamedEntitiesAndPreprocessedText(text).orEmpty()
         var preprocessedText = getTextWithoutDigits(text)
         for ((entity, entityType) in namedEntities) {
@@ -44,12 +32,10 @@ open class VZDeIdentifierImp(private val namedEntityExtractor: NamedEntityExtrac
     }
 
     protected open fun getTextWithDeIdentifiedEntity(text: String, entity: String, nerType: NERType): String {
-
-        if (!sensibleNerTypes.contains(nerType)) {
-            return text
-        }
         val searchPattern = "(?i)" + Pattern.quote(entity)
-        return text.replace(searchPattern.toRegex(), "#")
+        return if (!sensibleNerTypes.contains(nerType)) {
+            text
+        } else text.replace(searchPattern.toRegex(), "#")
     }
 
     private fun getTextWithoutDigits(rawText: String): String {

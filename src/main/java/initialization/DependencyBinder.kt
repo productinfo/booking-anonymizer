@@ -45,11 +45,7 @@ object DependencyBinder {
     val amountDeIdentifier: DeIdentifier
         get() = AmountDeIdentifier()
 
-
-    private val tokenizerDecorator: Tokenizer
-        get() = TokenizerDecorator(getTokenizerModel("/en-token.bin"))
-
-    private val namedEntityRecognizers: List<NamedEntityRecognizer>
+    val namedEntityRecognizers: List<NamedEntityRecognizer>
         get() {
             val namedEntityRecognizers = ArrayList<NamedEntityRecognizer>(INITIAL_CAPACITY)
             namedEntityRecognizers.add(0, germanFirmProprietoryModel)
@@ -72,6 +68,10 @@ object DependencyBinder {
             namedEntityRecognizers.add(17, emailNER)
             return namedEntityRecognizers
         }
+
+
+    private val tokenizerDecorator: Tokenizer
+        get() = TokenizerDecorator(getTokenizerModel("/en-token.bin"))
 
     //The use of an array list here in intention. Subsequent threads need to operate with array indexes
     // Order Matters to the Implementation.

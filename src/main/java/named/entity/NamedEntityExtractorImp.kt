@@ -15,7 +15,6 @@ class NamedEntityExtractorImp(
 ) : NamedEntityExtractor {
 
     override fun getNamedEntitiesAndPreprocessedText(text: String): HashMap<String, NERType> {
-        Objects.requireNonNull(text, "text cannot be null")
         val tempNamedEntities = ConcurrentHashMap<String, NERType>()
         val preprocessedText = preprocessor.getPreprocessedText(text)
 
@@ -23,7 +22,7 @@ class NamedEntityExtractorImp(
         val numberOfThreads = Constants.NUMBER_OF_AVAILABLE_CORES
         val executor = Executors.newFixedThreadPool(numberOfThreads)
         for (i in 0 until numberOfThreads) {
-            val quizMakerWorker = NERWorker(preprocessedText, tempNamedEntities, i, numberOfThreads)
+            val quizMakerWorker = NERRunnable(preprocessedText, tempNamedEntities, i, numberOfThreads)
             executor.execute(quizMakerWorker)
         }
         awaitTerminationOfThreads(executor)
@@ -40,7 +39,7 @@ class NamedEntityExtractorImp(
 
     }
 
-    private inner class NERWorker(
+    private inner class NERRunnable(
         private val text: String,
         private val namedEntities: ConcurrentHashMap<String, NERType>,
         private val threadNumber: Int,
