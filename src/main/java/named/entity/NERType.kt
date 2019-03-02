@@ -1,7 +1,6 @@
-package named.entity;
+package named.entity
 
-public enum NERType {
-
+enum class NERType {
     PERSON,
     URL,
     EMAIL,
