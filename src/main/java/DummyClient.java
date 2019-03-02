@@ -1,4 +1,5 @@
 import anonymization.DeIdentifier;
+import anonymization.NameDeIdentifier;
 import initialization.DependencyBinder;
 
 import java.util.LinkedList;
@@ -27,39 +28,15 @@ public class DummyClient {
         verwendungszwecke.add("LOGPAY FINANCIAL SERVICES GMBH LogPay OnlineTicket i.A.v. VAG Verk ehrs AG Nuernberg. Ihre Kundennr. 1 509010041 End-to-End-Ref.: ZAA0050671129 Mandatsref: 1016210922 Gläubiger-ID: DE90LPY00000046849 SEPA-BASISLASTSCHRIFT wiederholend");
         verwendungszwecke.add("adorsys GmbH + Co. KG Bew.Abr. 21.02 End-to-End-Ref.: NOTPROVIDED Kundenreferenz: NSCT1902220008740000000000000000002");
 
-        DeIdentifier deIdentifier = DependencyBinder.getVZDeIdentifier();
-        for (String transaction : verwendungszwecke) {
-            System.out.println(deIdentifier.getDeIdentifiedText(transaction));
+
+
+        LinkedList<String> tr = new LinkedList<>();
+        tr.add("Pascal");
+        tr.add("Paypal");
+        DeIdentifier deIdentifier1 = DependencyBinder.getNameDeIdentifier();
+        for (String transaction : tr) {
+            System.out.println(deIdentifier1.getDeIdentifiedText(transaction));
         }
 
-        String[] amounts = {"a", "534", "1", "0", "-98", "2", "-23"};
-        DeIdentifier amountDeIdentifier = DependencyBinder.getAmountDeIdentifier();
-        for (String amount : amounts) {
-            System.out.print(amountDeIdentifier.getDeIdentifiedText(amount));
-        }
-        System.out.println();
-
-        LinkedList<String> namen = new LinkedList<String>();
-        namen.add("GBW Wohnungs GmbH");
-        namen.add("COMDIRECT VISA-MONATSABRECHNUNG");
-        namen.add("PAYPAL EUROPE S.A.R.L. ET CIE S.C.A");
-        namen.add("Julia Handler-Ghamin");
-        namen.add("LICHTBLICK SE");
-        namen.add("LOGPAY FINANCIAL SERVICES");
-        namen.add("PROF. DR. GUDRUN FALKNER VERTR. D.");
-        namen.add("DEUTSCHE LUFTHANSA AKTIENGESELLSCHA");
-        namen.add("LOGPAY FINANCIAL SERVICES GMBH");
-        namen.add("ADORSYS GMBH + CO. KG");
-        namen.add("PASCAL PIERRE ZAMBOU ZOLEKO");
-        namen.add("Advanzia Bank S.A.");
-        namen.add("MEDICON SAGT DANKE");
-        namen.add("PayPal (Europe) S.a.r.l. et Cie., S.C.A.");
-        namen.add("VERKEHRS AG NUERNBERG");
-        namen.add("SATURN SAGT DANKE.");
-
-        DeIdentifier nameDeIdentifier = DependencyBinder.getNameDeIdentifier();
-        for (String name : namen) {
-            System.out.println(nameDeIdentifier.getDeIdentifiedText(name));
-        }
     }
 }

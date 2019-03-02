@@ -25,7 +25,6 @@ public class NameDeIdentifier extends VZDeIdentifierImp {
     protected String getTextWithDeIdentifiedEntity(String text, String entity, NERType nerType) {
 
         final String searchPattern = "(?i)" + Pattern.quote(entity);
-
         if (!sensibleNerTypes.contains(nerType)) {
             return text;
         }

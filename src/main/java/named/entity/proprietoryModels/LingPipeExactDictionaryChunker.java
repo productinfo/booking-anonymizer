@@ -15,7 +15,7 @@ public class LingPipeExactDictionaryChunker {
 
     public static ExactDictionaryChunker initializeDictionary(String fileName, String nerCategory) {
         final Dictionary<String> dictionary = getProfileDictionary(fileName, nerCategory);
-        return new ExactDictionaryChunker(dictionary, IndoEuropeanTokenizerFactory.INSTANCE, false, false);
+        return new ExactDictionaryChunker(dictionary, IndoEuropeanTokenizerFactory.INSTANCE, true, false);
     }
 
 
