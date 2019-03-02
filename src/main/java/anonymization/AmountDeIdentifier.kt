@@ -23,7 +23,7 @@ class AmountDeIdentifier : DeIdentifier {
                 }
 
                 var binCounter = 1
-                while (Math.pow(2.0, binCounter.toDouble()) < unsignedAmount && binCounter <= MAXIMUM_BIN_COUNT) {
+                while (Math.pow(2.0, binCounter.toDouble()) < unsignedAmount && binCounter < MAXIMUM_BIN_COUNT) {
                     binCounter++
                 }
                 amountSign + binCounter
@@ -40,6 +40,6 @@ class AmountDeIdentifier : DeIdentifier {
     }
 
     companion object {
-        private const val MAXIMUM_BIN_COUNT = 20
+        const val MAXIMUM_BIN_COUNT = 20
     }
 }
