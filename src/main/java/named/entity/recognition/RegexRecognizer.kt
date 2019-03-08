@@ -12,7 +12,7 @@ class RegexRecognizer(
     override fun getNamedEntities(text: String): HashMap<String, NERType> {
         Objects.requireNonNull(text)
         val matcher = pattern.matcher(text)
-        val namedEntities = HashMap<String, NERType>()
+        val namedEntities = hashMapOf<String, NERType>()
         while (matcher.find()) {
             val namedEntity = matcher.group().toLowerCase()
             namedEntities[namedEntity] = nerType

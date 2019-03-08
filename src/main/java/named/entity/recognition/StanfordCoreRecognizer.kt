@@ -9,9 +9,8 @@ import java.util.*
 data class StanfordCoreRecognizer(private val classifier: CRFClassifier<CoreLabel>) : NamedEntityRecognizer() {
 
     override fun getNamedEntities(text: String): HashMap<String, NERType> {
-        Objects.requireNonNull(text, "Raw text text cannot be null")
         val entitySet = classifier.classify(text)
-        val namedEntities = HashMap<String, NERType>()
+        val namedEntities = hashMapOf<String, NERType>()
         for (internalList in entitySet) {
             addPersonEntitiesToEntityCollection(internalList, namedEntities)
         }

@@ -8,7 +8,6 @@ data class LingPipeDictionaryRecognizer(
     private val chunker: Chunker,
     private val nerType: NERType
 ) : NamedEntityRecognizer() {
-
     override fun getNamedEntities(text: String): HashMap<String, NERType> {
         val namedEntities = HashMap<String, NERType>()
         val chunkedText = chunker.chunk(text)

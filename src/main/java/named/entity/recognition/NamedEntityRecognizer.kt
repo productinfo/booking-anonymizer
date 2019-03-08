@@ -9,7 +9,7 @@ abstract class NamedEntityRecognizer {
 
     companion object {
 
-        val NER_TYPES: MutableMap<String, NERType> = mutableMapOf()
+        val NER_TYPES = mutableMapOf<String, NERType>()
 
         init {
             NER_TYPES["PERSON"] = NERType.PERSON
